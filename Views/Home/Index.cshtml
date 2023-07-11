@@ -10,10 +10,20 @@
 
 <h3>Предыдущие версии:</h3>
 <ul>
+    @if (Model.PreviousGuesses != null)
+    {
+        
     @foreach (var guess in Model.PreviousGuesses)
     {
         <li>@guess</li>
+        }
     }
+    else
+    {
+        
+    <li>"some body wrong!"</li>
+    }
+
 </ul>
 
 <p>@Model.Feedback</p>
