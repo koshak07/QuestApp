@@ -1,0 +1,24 @@
+﻿@model QuestApp.Models.GuessingGameModel
+
+<form method="post" asp-action="Guess">
+    <label asp-for="UserGuess">Введите вашу версию:</label>
+    <input asp-for="UserGuess" />
+    <input type="submit" value="Угадать" />
+</form>
+
+<hr />
+
+<h3>Предыдущие версии:</h3>
+<ul>
+    @foreach (var guess in Model.PreviousGuesses)
+    {
+        <li>@guess</li>
+    }
+</ul>
+
+<p>@Model.Feedback</p>
+
+@if (Model.IsGameOver)
+{
+    <p>Игра окончена! Загаданное слово было "@Model.SecretWord".</p>
+}
