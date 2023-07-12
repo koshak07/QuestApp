@@ -7,15 +7,13 @@ namespace QuestApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly GuessingGameModel _gameModel;
-       
-        public HomeController()
-        {
-            _gameModel = new GuessingGameModel();
-        }
+        private static GuessingGameModel _gameModel = new GuessingGameModel();
+     
+        
 
         public IActionResult Index()
         {
+            _gameModel = new GuessingGameModel();
             return View(_gameModel);
         }
 
@@ -38,35 +36,31 @@ namespace QuestApp.Controllers
 
                     _gameModel.PreviousGuesses.Add(_gameModel.UserGuess);
 
+
                     // Логика подсказок и ответов системы
-                    string hint = GenerateHint();
                     if (_gameModel.UserGuess.Length > _gameModel.SecretWord.Length)
                     {
-                        
-                    _gameModel.Feedback = "Загаданное слово короче";
+
+                        _gameModel.Feedback = "Загаданное слово короче";
                     }
-                    if (_gameModel.UserGuess.Length < _gameModel.SecretWord.Length)
+                    else if (_gameModel.UserGuess.Length < _gameModel.SecretWord.Length)
                     {
 
                         _gameModel.Feedback = "Загаданное слово длинее";
                     }
+                    if(_gameModel.PreviousGuesses.Count > 3)
+                    {
+                    _gameModel.Feedback = "Подсказка: Первая буква " + _gameModel.SecretWord[0];
+                    }
+                    
 
 
-                    // Пример ответа системы
-                    //_gameModel.Feedback = "Нет, это не правильное слово. Попробуйте еще раз.";
+                   
                 }
             }
 
             return View("Index", _gameModel);
         }
-        private string GenerateHint()
-        {
-            // Здесь можно реализовать логику для генерации подсказки
-            // В данном примере просто возвращается случайная подсказка из списка
-            string[] hints = { "Загаданное слово длиннее", "Загаданное слово короче", "Подсказка: Первая буква " + _gameModel.SecretWord[0] };
-            Random random = new Random();
-            int index = random.Next(hints.Length);
-            return hints[index];
-        }
+       
     }
 }

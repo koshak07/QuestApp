@@ -13,12 +13,21 @@ namespace QuestApp.Models
 
         public GuessingGameModel()
         {
-            SecretWord = "banana"; // Загаданное слово (можно заменить на свое)
+            SecretWord = GetRandomWord();
             PreviousGuesses = new List<string>();
             Attempt = 0;
             UserGuess = string.Empty;
             Feedback = string.Empty;
             IsGameOver = false;
+        }
+        private string GetRandomWord()
+        {
+            // Генерация загаданных слов
+            
+            string[] words = { "apple", "banana", "orange", "grape", "pineapple" };
+            Random random = new Random();
+            int index = random.Next(words.Length);
+            return words[index];
         }
     }
 }
