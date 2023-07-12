@@ -20,6 +20,7 @@ namespace QuestApp.Controllers
         [HttpPost]
         public IActionResult Guess(GuessingGameModel model)
         {
+            var hint = GenerateHint();
             if (ModelState.IsValid)
             {
                 _gameModel.UserGuess = model.UserGuess.ToLower().Trim();
@@ -48,12 +49,12 @@ namespace QuestApp.Controllers
 
                         _gameModel.Feedback = "Загаданное слово длинее";
                     }
-                    if(_gameModel.PreviousGuesses.Count > 3)
+                    if (_gameModel.PreviousGuesses.Count > 3)
                     {
-                    _gameModel.Feedback = "Подсказка: Первая буква " + _gameModel.SecretWord[0];
+                    _gameModel.Feedback = hint;
                     }
-                    
 
+                    
 
                    
                 }
@@ -61,6 +62,15 @@ namespace QuestApp.Controllers
 
             return View("Index", _gameModel);
         }
-       
+        private string GenerateHint()
+        {
+            // Здесь можно реализовать логику для генерации подсказки
+            // В данном примере просто возвращается случайная подсказка из списка
+            string[] hints = { "Неправильно", "Думай еще", "Подсказка: Первая буква " + _gameModel.SecretWord[0], "Подсказка: Вторая буква " + _gameModel.SecretWord[1] };
+            Random random = new Random();
+            int index = random.Next(hints.Length);
+            return hints[index];
+        }
+
     }
 }
