@@ -39,16 +39,16 @@ namespace QuestApp.Controllers
 
 
                     // Логика подсказок и ответов системы
-                    if (_gameModel.UserGuess.Length > _gameModel.SecretWord.Length)
-                    {
+                    //if (_gameModel.UserGuess.Length > _gameModel.SecretWord.Length)
+                    //{
 
-                        _gameModel.Feedback = "Загаданное слово короче";
-                    }
-                    else if (_gameModel.UserGuess.Length < _gameModel.SecretWord.Length)
-                    {
+                    //    _gameModel.Feedback = "Загаданное слово короче";
+                    //}
+                    //else if (_gameModel.UserGuess.Length < _gameModel.SecretWord.Length)
+                    //{
 
-                        _gameModel.Feedback = "Загаданное слово длинее";
-                    }
+                    //    _gameModel.Feedback = "Загаданное слово длинее";
+                    //}
                     if (_gameModel.PreviousGuesses.Count > 3)
                     {
                     _gameModel.Feedback = hint;
@@ -66,7 +66,8 @@ namespace QuestApp.Controllers
         {
             // Здесь можно реализовать логику для генерации подсказки
             // В данном примере просто возвращается случайная подсказка из списка
-            string[] hints = { "Неправильно", "Думай еще", "Подсказка: Первая буква " + _gameModel.SecretWord[0], "Подсказка: Вторая буква " + _gameModel.SecretWord[1] };
+            string[] hints = { (_gameModel.UserGuess.Length<_gameModel.SecretWord.Length? _gameModel.Feedback = "Загаданное слово длинее" : _gameModel.Feedback = "Загаданное слово короче"), 
+                "Неправильно", "Думай еще", "Подсказка: Первая буква " + _gameModel.SecretWord[0], "Подсказка: Вторая буква " + _gameModel.SecretWord[1] };
             Random random = new Random();
             int index = random.Next(hints.Length);
             return hints[index];
